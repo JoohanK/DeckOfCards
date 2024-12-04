@@ -1,74 +1,90 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import React, { useState, useEffect } from "react";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { createDeck, drawCard, shuffleDeck } from "../../services/api";
 
 export default function HomeScreen() {
+  const [deckId, setDeckId] = useState<string | null>(null);
+  const [card, setCard] = useState<string | null>(null);
+  const [remainingCards, setRemainingCards] = useState<number>(0);
+
+  useEffect(() => {
+    const initializeDeck = async () => {
+      const deck = await createDeck();
+      setDeckId(deck.deck_id);
+      setRemainingCards(deck.remaining);
+    };
+
+    initializeDeck();
+  }, []);
+
+  const handleDrawCard = async () => {
+    if (deckId) {
+      const drawn = await drawCard(deckId);
+      setCard(drawn.cards[0].image); // Set card image URL
+      setRemainingCards(drawn.remaining); // Set remaining cards count
+    }
+  };
+
+  const handleShuffleDeck = async () => {
+    if (deckId) {
+      const shuffled = await shuffleDeck(deckId);
+      setRemainingCards(shuffled.remaining); // Set remaining cards count
+      setCard(null); // Reset card image
+    }
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
+    <View style={styles.container}>
+      <Text style={styles.text}>
+        {remainingCards ? `Remaining cards: ${remainingCards}` : ""}
+      </Text>
+      <TouchableOpacity onPress={handleDrawCard}>
         <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+          source={{
+            uri: card || "https://deckofcardsapi.com/static/img/back.png",
+          }}
+          style={styles.card}
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      </TouchableOpacity>
+      <Text style={styles.text}>
+        {card ? "Tap to draw a new card!" : "Tap to draw your first card!"}
+      </Text>
+      <TouchableOpacity
+        style={styles.shuffleButton}
+        onPress={handleShuffleDeck}
+      >
+        <Text style={styles.shuffleButtonText}>Shuffle Deck</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f0f0f0",
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  card: {
+    width: 200,
+    height: 300,
+    resizeMode: "contain",
+    marginBottom: 20,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  text: {
+    fontSize: 18,
+    color: "#333",
+  },
+  shuffleButton: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: "#1b2a41",
+    borderRadius: 5,
+  },
+  shuffleButtonText: {
+    color: "#fff",
+    fontSize: 18,
+    textAlign: "center",
   },
 });
