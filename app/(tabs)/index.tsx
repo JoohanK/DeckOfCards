@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { createDeck, drawCard, shuffleDeck } from "../../services/api";
+import { useSettings } from "../../context/SettingsContext";
 
 export default function HomeScreen() {
+  const { showRemaining, deckCount } = useSettings();
   const [deckId, setDeckId] = useState<string | null>(null);
   const [card, setCard] = useState<string | null>(null);
   const [remainingCards, setRemainingCards] = useState<number>(0);
 
   useEffect(() => {
     const initializeDeck = async () => {
-      const deck = await createDeck();
+      const deck = await createDeck(deckCount);
       setDeckId(deck.deck_id);
       setRemainingCards(deck.remaining);
     };
 
     initializeDeck();
-  }, []);
+  }, [deckCount]);
 
   const handleDrawCard = async () => {
     if (deckId) {
@@ -35,9 +37,11 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>
-        {remainingCards ? `Remaining cards: ${remainingCards}` : ""}
-      </Text>
+      {showRemaining && (
+        <Text style={styles.text}>
+          {remainingCards ? `Remaining cards: ${remainingCards}` : ""}
+        </Text>
+      )}
       <TouchableOpacity onPress={handleDrawCard}>
         <Image
           source={{

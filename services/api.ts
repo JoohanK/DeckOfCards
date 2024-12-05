@@ -2,8 +2,10 @@ import axios from "axios";
 
 const API_BASE_URL = "https://deckofcardsapi.com/api/deck";
 
-export const createDeck = async () => {
-  const response = await axios.get(`${API_BASE_URL}/new/shuffle/`);
+export const createDeck = async (deckCount: number = 1) => {
+  const response = await axios.get(
+    `${API_BASE_URL}/new/shuffle/?deck_count=${deckCount}`
+  );
   return response.data; // Returns { deck_id, shuffled, remaining }
 };
 

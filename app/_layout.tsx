@@ -1,8 +1,7 @@
 import { Stack } from "expo-router";
-import React from "react";
-
+import React, { useEffect } from "react";
 import { setStatusBarStyle } from "expo-status-bar";
-import { useEffect } from "react";
+import { SettingsProvider } from "../context/SettingsContext"; // Importera SettingsProvider
 
 export default function RootLayout() {
   useEffect(() => {
@@ -12,9 +11,11 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="+not-found" />
-    </Stack>
+    <SettingsProvider>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="+not-found" />
+      </Stack>
+    </SettingsProvider>
   );
 }
