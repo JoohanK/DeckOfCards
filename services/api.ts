@@ -9,8 +9,10 @@ export const createDeck = async (deckCount: number = 1) => {
   return response.data; // Returns { deck_id, shuffled, remaining }
 };
 
-export const drawCard = async (deckId: string) => {
-  const response = await axios.get(`${API_BASE_URL}/${deckId}/draw/?count=1`);
+export const drawCard = async (deckId: string, cardCount: number) => {
+  const response = await axios.get(
+    `${API_BASE_URL}/${deckId}/draw/?count=${cardCount}`
+  );
   return response.data; // Returns { cards, remaining }
 };
 

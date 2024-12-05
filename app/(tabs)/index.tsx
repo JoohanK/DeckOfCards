@@ -21,7 +21,7 @@ export default function HomeScreen() {
 
   const handleDrawCard = async () => {
     if (deckId) {
-      const drawn = await drawCard(deckId);
+      const drawn = await drawCard(deckId, 1);
       setCard(drawn.cards[0].image); // Set card image URL
       setRemainingCards(drawn.remaining); // Set remaining cards count
     }

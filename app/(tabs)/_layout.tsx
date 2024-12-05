@@ -24,10 +24,10 @@ export default function Layout() {
         }}
       />
       <Tabs.Screen
-        name="games"
+        name="game"
         options={{
-          tabBarLabel: "Games",
-          headerTitle: "Games",
+          tabBarLabel: "Game",
+          headerTitle: "Over or Under",
           tabBarIcon: ({ color, size }) => (
             <Ionicons
               name="game-controller-outline"
