@@ -12,8 +12,16 @@ import {
 import { useSettings } from "../../context/SettingsContext";
 
 export default function SettingsScreen() {
-  const { showRemaining, setShowRemaining, deckCount, setDeckCount } =
-    useSettings();
+  const {
+    showRemaining,
+    setShowRemaining,
+    deckCount,
+    setDeckCount,
+    showRemainingGame,
+    setShowRemainingGame,
+    deckCountGame,
+    setDeckCountGame,
+  } = useSettings();
 
   return (
     <View style={styles.container}>
@@ -29,6 +37,27 @@ export default function SettingsScreen() {
           keyboardType="numeric"
           value={deckCount.toString()}
           onChangeText={(value) => setDeckCount(Number(value))}
+          returnKeyType="done"
+          onSubmitEditing={Keyboard.dismiss}
+        />
+      </View>
+      <br />
+      <Text style={styles.header}>Game settings</Text>
+      <View style={styles.settingRow}>
+        <Text style={styles.settingLabel}>Show Remaining Cards</Text>
+        <Switch
+          value={showRemainingGame}
+          onValueChange={setShowRemainingGame}
+        />
+      </View>
+
+      <View style={styles.settingRow}>
+        <Text style={styles.settingLabel}>Number of Decks</Text>
+        <TextInput
+          style={styles.input}
+          keyboardType="numeric"
+          value={deckCountGame.toString()}
+          onChangeText={(value) => setDeckCountGame(Number(value))}
           returnKeyType="done"
           onSubmitEditing={Keyboard.dismiss}
         />

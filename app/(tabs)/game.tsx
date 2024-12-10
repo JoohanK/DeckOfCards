@@ -11,7 +11,7 @@ import { createDeck, drawCard, shuffleDeck } from "../../services/api";
 import { useSettings } from "../../context/SettingsContext";
 
 export default function Game() {
-  const { showRemaining, deckCount } = useSettings();
+  const { showRemainingGame, deckCountGame } = useSettings();
   const [deckId, setDeckId] = useState<string | null>(null);
   const [card, setCard] = useState<string | null>(null);
   const [secondCard, setSecondCard] = useState<string | null>(null);
@@ -24,13 +24,13 @@ export default function Game() {
 
   useEffect(() => {
     const initializeDeck = async () => {
-      const deck = await createDeck(1);
+      const deck = await createDeck(deckCountGame);
       setDeckId(deck.deck_id);
       setRemainingCards(deck.remaining);
     };
 
     initializeDeck();
-  }, [deckCount]);
+  }, [deckCountGame]);
 
   const handleDrawCardStart = async () => {
     if (deckId) {
@@ -135,7 +135,7 @@ export default function Game() {
           </Pressable>
         </View>
       )}
-      {showRemaining && (
+      {showRemainingGame && (
         <Text style={styles.text}>
           {remainingCards ? `Remaining cards: ${remainingCards}` : ""}
         </Text>

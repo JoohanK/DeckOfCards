@@ -5,6 +5,10 @@ interface SettingsContextType {
   setShowRemaining: (value: boolean) => void;
   deckCount: number;
   setDeckCount: (value: number) => void;
+  showRemainingGame: boolean;
+  setShowRemainingGame: (value: boolean) => void;
+  deckCountGame: number;
+  setDeckCountGame: (value: number) => void;
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(
@@ -16,10 +20,21 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [showRemaining, setShowRemaining] = useState<boolean>(true);
   const [deckCount, setDeckCount] = useState<number>(1);
+  const [showRemainingGame, setShowRemainingGame] = useState<boolean>(true);
+  const [deckCountGame, setDeckCountGame] = useState<number>(1);
 
   return (
     <SettingsContext.Provider
-      value={{ showRemaining, setShowRemaining, deckCount, setDeckCount }}
+      value={{
+        showRemaining,
+        setShowRemaining,
+        deckCount,
+        setDeckCount,
+        showRemainingGame,
+        setShowRemainingGame,
+        deckCountGame,
+        setDeckCountGame,
+      }}
     >
       {children}
     </SettingsContext.Provider>
