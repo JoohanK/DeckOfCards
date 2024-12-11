@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import React, { useEffect } from "react";
 import { setStatusBarStyle } from "expo-status-bar";
-import { SettingsProvider } from "../context/SettingsContext"; // Importera SettingsProvider
+import { SettingsProvider } from "../context/SettingsContext";
 
 export default function RootLayout() {
   useEffect(() => {

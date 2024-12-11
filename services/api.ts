@@ -6,14 +6,14 @@ export const createDeck = async (deckCount: number = 1) => {
   const response = await axios.get(
     `${API_BASE_URL}/new/shuffle/?deck_count=${deckCount}`
   );
-  return response.data; // Returns { deck_id, shuffled, remaining }
+  return response.data;
 };
 
 export const drawCard = async (deckId: string, cardCount: number) => {
   const response = await axios.get(
     `${API_BASE_URL}/${deckId}/draw/?count=${cardCount}`
   );
-  return response.data; // Returns { cards, remaining }
+  return response.data;
 };
 
 export const shuffleDeck = async (deckId: string) => {

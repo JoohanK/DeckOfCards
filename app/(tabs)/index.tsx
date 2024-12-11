@@ -22,16 +22,16 @@ export default function HomeScreen() {
   const handleDrawCard = async () => {
     if (deckId) {
       const drawn = await drawCard(deckId, 1);
-      setCard(drawn.cards[0].image); // Set card image URL
-      setRemainingCards(drawn.remaining); // Set remaining cards count
+      setCard(drawn.cards[0].image);
+      setRemainingCards(drawn.remaining);
     }
   };
 
   const handleShuffleDeck = async () => {
     if (deckId) {
       const shuffled = await shuffleDeck(deckId);
-      setRemainingCards(shuffled.remaining); // Set remaining cards count
-      setCard(null); // Reset card image
+      setRemainingCards(shuffled.remaining);
+      setCard(null);
     }
   };
 

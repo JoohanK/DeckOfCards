@@ -35,15 +35,11 @@ export default function Game() {
   const handleDrawCardStart = async () => {
     if (deckId) {
       const drawn = await drawCard(deckId, 2);
-      setCard(drawn.cards[0].image); // Set card image URL
-      setSecondCard(drawn.cards[1].image); // Set second card image URL
-      setRemainingCards(drawn.remaining + 1); // Set remaining cards count
-      setCardValue(
-        getCardNumericValue(drawn.cards[0].value) // Set card numeric value
-      );
-      setSecondCardValue(
-        getCardNumericValue(drawn.cards[1].value) // Set second card numeric value
-      );
+      setCard(drawn.cards[0].image);
+      setSecondCard(drawn.cards[1].image);
+      setRemainingCards(drawn.remaining + 1);
+      setCardValue(getCardNumericValue(drawn.cards[0].value));
+      setSecondCardValue(getCardNumericValue(drawn.cards[1].value));
       setGameStarted(true);
       console.log(drawn.cards);
     }
@@ -52,21 +48,19 @@ export default function Game() {
   const handleDrawCardNotStart = async () => {
     if (deckId) {
       const drawn = await drawCard(deckId, 1);
-      setRemainingCards(drawn.remaining + 1); // Set remaining cards count
+      setRemainingCards(drawn.remaining + 1);
       setCard(secondCard);
       setCardValue(secondCardValue);
-      setSecondCard(drawn.cards[0].image); // Set second card image URL
-      setSecondCardValue(
-        getCardNumericValue(drawn.cards[0].value) // Set second card numeric value
-      );
+      setSecondCard(drawn.cards[0].image);
+      setSecondCardValue(getCardNumericValue(drawn.cards[0].value));
     }
   };
 
   const handleShuffleDeck = async () => {
     if (deckId) {
       const shuffled = await shuffleDeck(deckId);
-      setRemainingCards(shuffled.remaining); // Set remaining cards count
-      setCard(null); // Reset card image
+      setRemainingCards(shuffled.remaining);
+      setCard(null);
       setGameStarted(false);
       setScore(0);
     }
@@ -89,105 +83,105 @@ export default function Game() {
 
   const handleGuessLower = async () => {
     if (secondCardValue !== null && cardValue !== null) {
-      const isCorrectGuess = secondCardValue < cardValue; // Check if second card is lower
+      const isCorrectGuess = secondCardValue < cardValue;
       setIsCorrect(isCorrectGuess);
       if (isCorrectGuess) {
-        setScore(score + 1); // Increment score if guess is correct
+        setScore(score + 1);
       }
-      setCardValue(secondCardValue); // Update current card value to the second card value
-      handleDrawCardNotStart(); // Draw a new card to continue
+      setCardValue(secondCardValue);
+      handleDrawCardNotStart();
     }
   };
 
   const handleGuessHigher = async () => {
     if (secondCardValue !== null && cardValue !== null) {
-      const isCorrectGuess = secondCardValue > cardValue; // Check if second card is higher
+      const isCorrectGuess = secondCardValue > cardValue;
       setIsCorrect(isCorrectGuess);
       if (isCorrectGuess) {
-        setScore(score + 1); // Increment score if guess is correct
+        setScore(score + 1);
       }
-      setCardValue(secondCardValue); // Update current card value to the second card value
-      handleDrawCardNotStart(); // Draw a new card to continue
+      setCardValue(secondCardValue);
+      handleDrawCardNotStart();
     }
-  };
 
-  return (
-    <View style={styles.container}>
-      <View>
-        <Text style={styles.text}>Score: {score}</Text>
-        {isCorrect !== null && (
+    return (
+      <View style={styles.container}>
+        <View>
+          <Text style={styles.text}>Score: {score}</Text>
+          {isCorrect !== null && (
+            <Text style={styles.text}>
+              {isCorrect ? "Correct!" : "Incorrect!"}
+            </Text>
+          )}
+        </View>
+        {!gameStarted ? (
+          <TouchableOpacity style={styles.button} onPress={handleDrawCardStart}>
+            <Text style={styles.buttonText}>Start</Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.lowerHigherContainer}>
+            <Pressable style={styles.button} onPress={handleGuessLower}>
+              <Text style={styles.buttonText}>Lower</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={handleGuessHigher}>
+              <Text style={styles.buttonText}>Higher</Text>
+            </Pressable>
+          </View>
+        )}
+        {showRemainingGame && (
           <Text style={styles.text}>
-            {isCorrect ? "Correct!" : "Incorrect!"}
+            {remainingCards ? `Remaining cards: ${remainingCards}` : ""}
           </Text>
         )}
-      </View>
-      {!gameStarted ? (
-        <TouchableOpacity style={styles.button} onPress={handleDrawCardStart}>
-          <Text style={styles.buttonText}>Start</Text>
+
+        <Image
+          source={{
+            uri: card || "https://deckofcardsapi.com/static/img/back.png",
+          }}
+          style={styles.card}
+        />
+
+        <TouchableOpacity style={styles.button} onPress={handleShuffleDeck}>
+          <Text style={styles.buttonText}>Shuffle Deck</Text>
         </TouchableOpacity>
-      ) : (
-        <View style={styles.lowerHigherContainer}>
-          <Pressable style={styles.button} onPress={handleGuessLower}>
-            <Text style={styles.buttonText}>Lower</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={handleGuessHigher}>
-            <Text style={styles.buttonText}>Higher</Text>
-          </Pressable>
-        </View>
-      )}
-      {showRemainingGame && (
-        <Text style={styles.text}>
-          {remainingCards ? `Remaining cards: ${remainingCards}` : ""}
-        </Text>
-      )}
+      </View>
+    );
+  };
 
-      <Image
-        source={{
-          uri: card || "https://deckofcardsapi.com/static/img/back.png",
-        }}
-        style={styles.card}
-      />
-
-      <TouchableOpacity style={styles.button} onPress={handleShuffleDeck}>
-        <Text style={styles.buttonText}>Shuffle Deck</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#f0f0f0",
+    },
+    card: {
+      width: 200,
+      height: 300,
+      resizeMode: "contain",
+      marginBottom: 20,
+    },
+    text: {
+      fontSize: 18,
+      color: "#333",
+    },
+    button: {
+      marginTop: 20,
+      padding: 10,
+      backgroundColor: "#1b2a41",
+      borderRadius: 5,
+    },
+    buttonText: {
+      color: "#fff",
+      fontSize: 18,
+      textAlign: "center",
+    },
+    lowerHigherContainer: {
+      flexDirection: "row",
+      justifyContent: "center",
+      gap: 20,
+      margin: 20,
+      width: "100%",
+    },
+  });
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f0f0f0",
-  },
-  card: {
-    width: 200,
-    height: 300,
-    resizeMode: "contain",
-    marginBottom: 20,
-  },
-  text: {
-    fontSize: 18,
-    color: "#333",
-  },
-  button: {
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: "#1b2a41",
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    textAlign: "center",
-  },
-  lowerHigherContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 20,
-    margin: 20,
-    width: "100%",
-  },
-});

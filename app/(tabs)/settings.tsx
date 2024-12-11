@@ -5,8 +5,6 @@ import {
   Switch,
   TextInput,
   StyleSheet,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
 import { useSettings } from "../../context/SettingsContext";
