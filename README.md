@@ -32,7 +32,7 @@ Follow these steps to get started:
 
 ## Author
 
-Created by Johan Kristensson. Feel free to check out my LinkedIn
+Created by Johan Kristensson. Feel free to check out my [LinkedIn](https://www.linkedin.com/in/johan-kristensson/) 
 
 ## License
 
