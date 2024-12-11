@@ -1,50 +1,39 @@
-# Welcome to your Expo app 👋
+# Deck of Cards App 🃏
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A simple and sleek application to manage card decks – perfect for card games or other deck-based activities!
 
-## Get started
+## Features
 
-1. Install dependencies
+- Create and customize your own decks of cards.
+- Draw cards randomly.
+- Reset the deck to its original order.
+- Play simple card games.
+- Modify how many decks you want to include in your shuffles.
 
-   ```bash
-   npm install
+## Installation
+
+Follow these steps to get started:
+
+1. Clone this repository:
    ```
-
-2. Start the app
-
-   ```bash
-    npx expo start
+   git clone https://github.com/JoohanK/DeckOfCards.git
    ```
+2. npm install
+3. npm start
 
-In the output, you'll find options to open the app in a
+## Usage
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+1. Launch the app in your browser. W.
+2. Start drawing cards and enjoy!
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Built with
 
-## Get a fresh project
+- React Native (expo)
 
-When you're ready, run:
+## Author
 
-```bash
-npm run reset-project
-```
+Created by Johan Kristensson. Feel free to check out my LinkedIn
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## License
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+This project is licensed under the MIT License.
